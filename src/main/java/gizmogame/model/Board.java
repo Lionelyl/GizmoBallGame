@@ -34,7 +34,6 @@ public class Board {
 
 
 
-
     public Collection<Components> getComponents() {
         return components;
     }
@@ -45,6 +44,10 @@ public class Board {
 
     public Vect getMousePress() {
         return mousePress;
+    }
+
+    public Ball getBall() {
+        return ball;
     }
 
     public void setComponents(Collection<Components> components) {
@@ -59,4 +62,7 @@ public class Board {
         this.mousePress = mousePress;
     }
 
+    public void setBall(Ball ball) {
+        this.ball = ball;
+    }
 }

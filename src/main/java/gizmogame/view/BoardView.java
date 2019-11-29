@@ -2,18 +2,26 @@ package gizmogame.view;
 
 import gizmogame.controller.BoardMouseListener;
 
+import gizmogame.controller.ModelListener;
+import gizmogame.model.Ball;
 import gizmogame.model.Board;
 import gizmogame.model.Components;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BoardView extends JPanel {
+    private static int FRAMES_PER_SECOND = 100;
     private int ox = 10;
     private int oy = 10;
+    private int ex = 810;
+    private int ey = 810;
 
     private Board board;
     private String componentType;
+    private Timer timer;
 
     public BoardView( Board board) {
         super();
@@ -21,6 +29,17 @@ public class BoardView extends JPanel {
         componentType = "select";
         setPreferredSize(new Dimension(820, 840));
         addMouseListener(new BoardMouseListener(this,board));
+        timer = new Timer(1000/FRAMES_PER_SECOND,new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //System.out.println("get ball");
+                Ball ball = board.getBall();
+                ball.move();
+                updateUI();
+                //System.out.println("update");
+
+            }
+        });
     }
 
     @Override
@@ -73,12 +92,24 @@ public class BoardView extends JPanel {
         return oy;
     }
 
+    public int getEx() {
+        return ex;
+    }
+
+    public int getEy() {
+        return ey;
+    }
+
     public void setComponentType(String componentType) {
         this.componentType = componentType;
     }
 
     public String getComponentType() {
         return componentType;
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
     /*    public static void main(String[] args) {
         JFrame frame = new JFrame();

@@ -46,6 +46,8 @@ public class BoardMouseListener implements MouseListener {
                Components c = componentBuilder.createComponet(boardView.getComponentType(),new Vect(cx,cy));
                board.getComponents().add(c);
                board.setSelectedComponent(c);
+               if(c instanceof Ball)
+                   board.setBall((Ball)c);
                boardView.updateUI();
            }
 

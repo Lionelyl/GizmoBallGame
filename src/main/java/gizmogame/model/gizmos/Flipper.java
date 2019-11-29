@@ -2,6 +2,9 @@ package gizmogame.model.gizmos;
 
 import gizmogame.model.Components;
 import gizmogame.physics.Vect;
+import gizmogame.view.Ui;
+
+import java.awt.*;
 
 public class Flipper extends Components {
 
@@ -31,4 +34,9 @@ public class Flipper extends Components {
     public void addSize(){
         size++;
     }
-}
+
+    @Override
+    public void draw(Graphics g) {
+        g.drawImage(image, (int) origin.x(), (int) origin.y()+20, size * Ui.dis*2, size * Ui.dis, null);
+
+    }}

@@ -132,16 +132,12 @@ abstract public class Components {
         double height = bound.y() - origin.y();
         return origin.plus(new Vect(width / 2, height / 2));
     }
+
+
+
+
     public void rotate(BoardView boardView) {
-        Vect centerPoint = getCenterPoint();
-        rotation =( (rotation + 1) % 4);
-        //setSaveInfo();
-        for (int i = 0; i < coordinates.size(); i++) {
-            coordinates.set(i, rotationMatrix(coordinates.get(i), centerPoint));
-        }
-        setCircles(calculateCircles());
-        setLines(calculateLines());
-        boardView.updateUI();
+
     }
 
     /**
@@ -154,7 +150,7 @@ abstract public class Components {
             size --;
             if (bound.x() <= 20 * Ui.dis + 10 && bound.y() <= 20 * Ui.dis + 10){
                 size++;
-                System.out.println("big");
+               // System.out.println("big");
             }
         } else {
             size--;
@@ -188,7 +184,7 @@ abstract public class Components {
         for(int y = (int)topRight.y(); y <= bottomRight.y(); y += Ui.dis){
 
             Vect v = new Vect(topRight.x(),y);
-            System.out.println(y);
+            //System.out.println(y);
             if(board.getClickPointComponent(v)!=null){
                // System.out.println("1");
                 return false;

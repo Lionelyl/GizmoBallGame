@@ -17,10 +17,10 @@ public class Ui extends JFrame{
 
         public Ui(Board board){
             this.board = board;
-            modelBar = new ModelBar();
             boardView = new BoardView(board);
             componentBar = new ComponentBar(boardView);
             toolBar = new ToolBar(boardView,board);
+            modelBar = new ModelBar(boardView);
 
             createUI();
         }
