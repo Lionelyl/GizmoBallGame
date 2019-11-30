@@ -32,4 +32,9 @@ public class CurvePipe extends Components {
     public void addSize(){
         size++;
     }
+
+    @Override
+    public boolean canRotate(){
+        return true;
+    }
 }

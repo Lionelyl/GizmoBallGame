@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.awt.geom.AffineTransform;
 
 abstract public class Components {
 
@@ -21,13 +22,12 @@ abstract public class Components {
     protected String name;
     protected Collection<Triggerable> triggerables;
     protected Image image;
-    protected int size,rotation;
-
+    protected int size;
+    protected int rotation;
+    protected boolean isrotate;
     private List<Circle> circles = new ArrayList<>();
     private List<LineSegment> lines = new ArrayList<>();
     private List<Vect> coordinates = new ArrayList<>();
-
-
 
     public Components(Vect origin, String name) {
         this.origin = origin;
@@ -39,8 +39,8 @@ abstract public class Components {
         size = 1;
         count++;
         image = getImage();
+        isrotate = false;
         rotation = 0;
-
     }
 
     public Vect getOrigin() {
@@ -133,11 +133,24 @@ abstract public class Components {
         return origin.plus(new Vect(width / 2, height / 2));
     }
 
+    /**
+     * Rotate a gizmo
+     */
+    public void rotate() {
+        isrotate = true;
+        rotation ++;
 
+/*        Vect centerPoint = getCenterPoint();
+        rotation =( (rotation + 1) % 4);
+        //setSaveInfo();
+        for (int i = 0; i < coordinates.size(); i++) {
+            coordinates.set(i, rotationMatrix(coordinates.get(i), centerPoint));
+        }
 
-
-    public void rotate(BoardView boardView) {
-
+        setCircles(calculateCircles());
+        System.out.println(circles);
+        setLines(calculateLines());
+        boardView.updateUI();*/
     }
 
     /**
@@ -150,7 +163,7 @@ abstract public class Components {
             size --;
             if (bound.x() <= 20 * Ui.dis + 10 && bound.y() <= 20 * Ui.dis + 10){
                 size++;
-               // System.out.println("big");
+                //System.out.println("big");
             }
         } else {
             size--;
@@ -206,9 +219,31 @@ abstract public class Components {
      * Draw a gizmo
      */
     public void draw(Graphics g) {
-        g.drawImage(image, (int) origin.x(), (int) origin.y(), size * Ui.dis, size * Ui.dis, null);
+/*        if(this.getRotation()==0){*/
+            g.drawImage(image, (int) origin.x(), (int) origin.y(), size * Ui.dis, size * Ui.dis, null);
+           // System.out.println("Really rotate111");
+/*        }
 
+        else {
+            Graphics2D g2d = (Graphics2D) g;
+            for(int i = 0;i<this.getRotation();i++){
+                AffineTransform old = g2d.getTransform();
+                g2d.rotate(Math.toRadians(90));
+                g2d.setTransform(old);
+                System.out.println("Really rotate");
+            }
+        }*/
     }
+
+    public void drawRotation(Graphics g){
+        AffineTransform trans = new AffineTransform();
+        trans.rotate(90*rotation*Math.PI/180,getCenterPoint().x()+Ui.dis/2*size,
+                getCenterPoint().y()+Ui.dis/2*size);
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.setTransform(trans);
+        g2d.drawImage(image, (int) origin.x(), (int) origin.y(), size * Ui.dis, size * Ui.dis, null);
+    }
+
 
     /**
      * ZoomSmall a gizmo
@@ -238,4 +273,13 @@ abstract public class Components {
         double newY = coord.x() * Math.sin(angleR) + coord.y() * Math.cos(angleR);
         return new Vect(newX, newY).plus(center);
     }
+
+    public boolean isRotated(){
+        return isrotate;
+    }
+
+    public boolean canRotate(){
+        return false;
+    }
+
 }

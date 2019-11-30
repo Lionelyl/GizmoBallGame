@@ -22,13 +22,11 @@ public class BoardMouseListener implements MouseListener {
         componentBuilder = new ComponentBuilder();
     }
 
-    @Override
     public void mouseClicked(MouseEvent e) {
         //System.out.println("鼠标点击");
 
     }
 
-    @Override
     public void mousePressed(MouseEvent e) {
         System.out.println(e.getPoint());
 

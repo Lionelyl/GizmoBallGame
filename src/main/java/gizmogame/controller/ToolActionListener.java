@@ -26,6 +26,9 @@ public class ToolActionListener implements ActionListener {
         switch (cmd) {
             case "rotate":
                 System.out.println("rotate");
+                if(board.getSelectedComponent().canRotate())
+                    board.getSelectedComponent().rotate();
+                boardView.updateUI();
                 break;
             case "zoombig":
                 board.getSelectedComponent().zoomBig(board);

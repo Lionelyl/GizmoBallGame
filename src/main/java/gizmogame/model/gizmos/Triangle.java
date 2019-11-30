@@ -21,16 +21,12 @@ public class Triangle extends Components {
 
     }
 
-
-
-
     @Override
     public Vect calculateBound() {
         Vect origin = super.getOrigin();
         Vect bound = new Vect(1, 1);
         return origin.plus(bound);
     }
-
 
     public int getRotaion() {
         return rotation;
@@ -47,8 +43,14 @@ public class Triangle extends Components {
     public void setSize(int size) {
         this.size = size;
     }
+
     public void addSize(){
         size++;
+    }
+
+    @Override
+    public boolean canRotate(){
+        return true;
     }
 }
 
