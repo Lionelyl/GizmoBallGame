@@ -19,6 +19,11 @@ public class Board {
 
     public Components getClickPointComponent(Vect mousePress){
 
+
+        if(ball != null && ball.getOrigin().x() <= mousePress.x() && ball.getBound().x() > mousePress.x())
+            if(ball.getOrigin().y() <= mousePress.y() && ball.getBound().y() >mousePress.y())
+                return ball;
+
         for(Components c :components){
             Vect origin = c.getOrigin();
             Vect bound = c.getBound();
@@ -31,10 +36,6 @@ public class Board {
         }
         return null;
     }
-
-
-
-
 
 
     public Collection<Components> getComponents() {

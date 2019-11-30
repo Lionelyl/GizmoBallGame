@@ -27,14 +27,10 @@ abstract public class Components {
     protected boolean isrotate;
     private List<Circle> circles = new ArrayList<>();
     private List<LineSegment> lines = new ArrayList<>();
-    private List<Vect> coordinates = new ArrayList<>();
 
     public Components(Vect origin, String name) {
         this.origin = origin;
         setBound(origin.plus(new Vect(Ui.dis, Ui.dis)));
-        coordinates = calculateCoordinates();
-        circles = calculateCircles();
-        lines = calculateLines();
         this.name = name;
         size = 1;
         count++;
@@ -84,42 +80,6 @@ abstract public class Components {
         this.lines = lines;
     }
 
-    private List<Vect> calculateCoordinates() {
-        Vect topLeft = origin;
-        Vect topRight = new Vect(bound.x(), origin.y());
-        Vect bottomLeft = new Vect(origin.x(), bound.y());
-        return Arrays.asList(topLeft, topRight, bottomLeft);
-    }
-
-    /**
-     * Calculate this Element's circles.
-     *
-     * @return this Element's circles.
-     */
-    private List<gizmogame.physics.Circle> calculateCircles() {
-        List<gizmogame.physics.Circle> calcCircles = new ArrayList<>();
-        for (Vect coord : coordinates) {
-            gizmogame.physics.Circle circle = new gizmogame.physics.Circle(coord, 0);
-            calcCircles.add(circle);
-        }
-        return calcCircles;
-    }
-
-    /**
-     * Calculate this Element's lines.
-     *
-     * @return this Element's lines.
-     */
-    private List<LineSegment> calculateLines() {
-        List<LineSegment> calcLines = new ArrayList<>();
-        for (int i = 0; i < coordinates.size(); i++) {
-            Vect a = coordinates.get(i);
-            Vect b = coordinates.get((i + 1) % coordinates.size());
-            LineSegment line = new LineSegment(a, b);
-            calcLines.add(line);
-        }
-        return calcLines;
-    }
 
 
 
@@ -242,6 +202,8 @@ abstract public class Components {
         Graphics2D g2d = (Graphics2D)g;
         g2d.setTransform(trans);
         g2d.drawImage(image, (int) origin.x(), (int) origin.y(), size * Ui.dis, size * Ui.dis, null);
+
+        g2d.dispose();
     }
 
 
@@ -254,25 +216,22 @@ abstract public class Components {
         return image;
     }
 
-    public Vect getCenter() {
-        return null;
-    }
 
 
-    /**
+ /*   *//**
      * Rotate a coordinate around the center point by 90°.
      *
      * @param coordinate
      * @param center
      * @return
-     */
+     *//*
     protected Vect rotationMatrix(Vect coordinate, Vect center) {
         double angleR = Math.toRadians((double) 90);
         Vect coord = coordinate.minus(center);
         double newX = coord.x() * Math.cos(angleR) - coord.y() * Math.sin(angleR);
         double newY = coord.x() * Math.sin(angleR) + coord.y() * Math.cos(angleR);
         return new Vect(newX, newY).plus(center);
-    }
+    }*/
 
     public boolean isRotated(){
         return isrotate;

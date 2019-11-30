@@ -2,11 +2,14 @@ package gizmogame.view;
 
 import gizmogame.controller.BoardMouseListener;
 
+import gizmogame.model.Ball;
 import gizmogame.model.Board;
 import gizmogame.model.Components;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 
 public class BoardView extends JPanel {
@@ -15,6 +18,7 @@ public class BoardView extends JPanel {
 
     private Board board;
     private String componentType;
+    private Timer timer;
 
     public BoardView( Board board) {
         super();
@@ -22,6 +26,14 @@ public class BoardView extends JPanel {
         componentType = "select";
         setPreferredSize(new Dimension(820, 840));
         addMouseListener(new BoardMouseListener(this,board));
+        timer = new Timer(1000 / 100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Ball ball = board.getBall();
+                ball.move();
+                updateUI();
+            }
+        });
     }
 
 
@@ -31,11 +43,12 @@ public class BoardView extends JPanel {
         drawRect(g);
         drawLine(g);
         for (Components c : board.getComponents()) {
-            if(!c.isRotated())
+           /* if(!c.isRotated())
                 c.draw(g);
             else{
                 c.drawRotation(g);
-            }
+            }*/
+           c.draw(g);
         }
         if(board.getBall()!=null)
             board.getBall().draw(g);
@@ -87,6 +100,12 @@ public class BoardView extends JPanel {
     public String getComponentType() {
         return componentType;
     }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+
     /*    public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setSize(820, 840);
