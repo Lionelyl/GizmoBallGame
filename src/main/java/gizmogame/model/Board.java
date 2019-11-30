@@ -34,6 +34,9 @@ public class Board {
 
 
 
+
+
+
     public Collection<Components> getComponents() {
         return components;
     }
@@ -65,4 +68,5 @@ public class Board {
     public void setBall(Ball ball) {
         this.ball = ball;
     }
+
 }

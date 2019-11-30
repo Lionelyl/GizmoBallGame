@@ -37,6 +37,8 @@ public class BoardView extends JPanel {
                 c.drawRotation(g);
             }
         }
+        if(board.getBall()!=null)
+            board.getBall().draw(g);
     }
 
     private void drawLine(Graphics g) {

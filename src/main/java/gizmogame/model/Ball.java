@@ -24,7 +24,7 @@ public class Ball extends Components{
         absorbed = false;
         center = origin.plus((new Vect((bound.x() - origin.x())/2,(bound.y()-origin.y())/2)));
         velocity = new Vect(5,5);
-        diameter = 20;
+        diameter = (int)(bound.x()-origin.x());
     }
 
     public void move(){
@@ -38,34 +38,48 @@ public class Ball extends Components{
         System.out.println(vy);
 
         x += vx;
-        if (x <= diameter+10) {
-            x = diameter+10;
+        if (x <= diameter/2+10) {
+            x = diameter/2+10;
             vx = -vx;
         }
-        if (x >= 810 - diameter) {
-            x = 810 - diameter;
+        if (x >= 810 - diameter/2) {
+            x = 810 - diameter/2;
             vx = -vx;
         }
 
 
         y += vy;
-        if (y <= diameter+10) {
-            y = diameter+10;
+        if (y <= diameter/2+10) {
+            y = diameter/2+10;
             vy = -vy;
         }
-        if (y >= 810 - diameter) {
-            y =  810 - diameter;
+        if (y >= 810 - diameter/2) {
+            y =  810 - diameter/2;
             vy = -vy;
         }
 
         velocity = new Vect(vx,vy);
         setCenter(new Vect(x,y));
-        setOrigin(center.minus(new Vect(20,20)));
+        setOrigin(center.minus(new Vect(diameter/2,diameter/2)));
     }
 
 
+    public boolean inside(Components otherElement) {
+        Vect ourOrigin = origin, ourBound = getBound(), theirOrigin = otherElement.getOrigin(),
+                theirBound = otherElement.getBound();
 
+        boolean topIn = ourOrigin.y() <= theirBound.y() && ourOrigin.y() >= theirOrigin.y();
+        boolean bottomIn = ourBound.y() >= theirOrigin.y() && ourBound.y() <= theirBound.y();
+        boolean leftIn = ourOrigin.x() <= theirBound.x() && ourOrigin.x() >= theirOrigin.x();
+        boolean rightIn = ourBound.x() >= theirOrigin.x() && ourBound.x() <= theirBound.x();
 
+        // still with me?
+
+        boolean verticallyIn = leftIn && rightIn;
+        boolean horizontallyIn = topIn && bottomIn;
+
+        return (verticallyIn && (topIn || bottomIn)) || (horizontallyIn && (leftIn || rightIn));
+    }
 
 
 
