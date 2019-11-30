@@ -18,11 +18,11 @@ public class ModelListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         //System.out.println(e.getActionCommand());
         if(e.getActionCommand().equals("PLAY")){
-            boardView.getTimer().start();
+           // boardView.getTimer().start();
             //System.out.println("timer start");
         }
         else{
-            boardView.getTimer().stop();
+           // boardView.getTimer().stop();
             //System.out.println("timer stop");
         }
 
