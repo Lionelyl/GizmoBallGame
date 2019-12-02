@@ -1,6 +1,7 @@
 package gizmogame.view;
 
 import gizmogame.controller.ModelListener;
+import gizmogame.model.Board;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +15,14 @@ public class ModelBar extends JPanel {
     static final private String BUILD = "BUILD";
 
     private BoardView boardView;
+    private Board board;
     private ActionListener modelListener;
 
-    public ModelBar(BoardView boardView) {
+    public ModelBar(BoardView boardView, Board board) {
         super(new GridLayout(2, 1));
         this.boardView = boardView;
-        modelListener = new ModelListener(boardView);
+        this.board = board;
+        modelListener = new ModelListener(boardView,board);
 
         JLabel label1 = new JLabel("GIZMO BALL", JLabel.CENTER);
         label1.setFont(new Font(SANS_SERIF, Font.BOLD, 20));

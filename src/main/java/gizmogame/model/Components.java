@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.awt.geom.AffineTransform;
 
-abstract public class Components {
+abstract public class Components implements CollisionHandler{
 
     protected static int count = 0;
     protected int index = 0;
@@ -221,8 +221,8 @@ abstract public class Components {
  /*   *//**
      * Rotate a coordinate around the center point by 90°.
      *
-     * @param coordinate
-     * @param center
+     * @param //coordinate
+     * @param //center
      * @return
      *//*
     protected Vect rotationMatrix(Vect coordinate, Vect center) {
@@ -239,6 +239,14 @@ abstract public class Components {
 
     public boolean canRotate(){
         return false;
+    }
+
+    public List<Circle> getCircles() {
+        return circles;
+    }
+
+    public List<LineSegment> getLines() {
+        return lines;
     }
 
 }

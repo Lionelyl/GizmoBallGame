@@ -13,6 +13,7 @@ public class Main {
      public static void main(String[] args) {
          Board board = new Board();
          Ui ui = new Ui(board);
+         //board.tick();
     }
 
   /*  private Vect origin = new Vect(0,0);

@@ -1,5 +1,6 @@
 package gizmogame.model.gizmos;
 
+import gizmogame.model.Collision;
 import gizmogame.model.Components;
 import gizmogame.physics.Vect;
 
@@ -30,5 +31,10 @@ public class StraightPipe extends Components {
     }
     public void addSize(){
         size++;
+    }
+
+    @Override
+    public void handle(Collision collision) {
+
     }
 }

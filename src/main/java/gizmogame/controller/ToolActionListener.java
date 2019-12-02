@@ -1,5 +1,6 @@
 package gizmogame.controller;
 
+import gizmogame.model.Ball;
 import gizmogame.model.Board;
 import gizmogame.model.Components;
 import gizmogame.view.BoardView;
@@ -26,7 +27,7 @@ public class ToolActionListener implements ActionListener {
         switch (cmd) {
             case "rotate":
                 System.out.println("rotate");
-                if(board.getSelectedComponent().canRotate())
+                if (board.getSelectedComponent().canRotate())
                     board.getSelectedComponent().rotate();
                 boardView.updateUI();
                 break;
@@ -40,7 +41,10 @@ public class ToolActionListener implements ActionListener {
                 break;
             case "delete":
                 Components c = board.getSelectedComponent();
-                board.getComponents().remove(c);
+                if (c instanceof Ball)
+                    board.setBall(null);
+                else
+                    board.getComponents().remove(c);
                 boardView.updateUI();
                 break;
             default:

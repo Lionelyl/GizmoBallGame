@@ -1,5 +1,6 @@
 package gizmogame.model.gizmos;
 
+import gizmogame.model.Collision;
 import gizmogame.model.Components;
 import gizmogame.physics.Vect;
 
@@ -33,4 +34,8 @@ public class Circle extends Components {
     }
 
 
+    @Override
+    public void handle(Collision collision) {
+
+    }
 }

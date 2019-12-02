@@ -1,5 +1,6 @@
 package gizmogame.model.gizmos;
 
+import gizmogame.model.Collision;
 import gizmogame.model.Components;
 import gizmogame.physics.Vect;
 
@@ -36,5 +37,10 @@ public class CurvePipe extends Components {
     @Override
     public boolean canRotate(){
         return true;
+    }
+
+    @Override
+    public void handle(Collision collision) {
+
     }
 }

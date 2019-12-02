@@ -1,5 +1,8 @@
 package gizmogame.model;
 
+import gizmogame.physics.Circle;
+import gizmogame.physics.Geometry;
+import gizmogame.physics.LineSegment;
 import gizmogame.physics.Vect;
 
 import java.util.ArrayList;
@@ -11,6 +14,8 @@ public class Board {
     private Ball ball;
     private Components selectedComponent;
     private Vect mousePress;
+    private Collision closestCollision;
+    public final static double moveTime = 0.05;
 
     public Board(){
         components = new ArrayList<>();
@@ -70,4 +75,121 @@ public class Board {
         this.ball = ball;
     }
 
+
+    /**
+     * Get the time until this ball will have its next collision.
+     *
+     * @param ball
+     * @return
+     */
+    public Collision getTimeTillCollision(Ball ball) {
+        closestCollision = new Collision(0, 0, Double.MAX_VALUE);
+        for (Components element : getComponents()) {
+            /*if (element instanceof Absorber && ball.inside(element))
+                continue;*/
+
+            System.out.println(element);
+
+            int i =0;
+            for (Circle circle : element.getCircles()) {
+                System.out.println(++i);
+               // System.out.println(element.getCircles());
+                detectCircleCollision(circle, ball, element);
+            }
+
+            for (LineSegment line : element.getLines()) {
+                //System.out.println(element.getLines());
+                detectLineCollision(line, ball, element);
+            }
+
+            /*if (element instanceof Flipper) {
+
+                //((Flipper) element).flip();
+
+                for (LineSegment line : element.getLines()) {
+                    detectFlipperCollision(line, ball, element);
+                }
+
+            }*/
+
+        }
+        /*for (Ball otherBall : getBalls()) {
+            detectBallCollision(otherBall, ball);
+        }*/
+        return closestCollision;
+    }
+
+
+    /**
+     * Detect the time until the next collision between the circle and ball.
+     *
+     * @param circle
+     * @param ball
+     * @param element
+     */
+    private void detectCircleCollision(Circle circle, Ball ball, Components element) {
+        double time = Geometry.timeUntilCircleCollision(circle, ball.getCircle(), ball.getVelocity());
+        System.out.println("circle:  "+circle);
+        System.out.println("ball.getCircle:  "+ball.getCircle());
+        System.out.println("ball.getVelocity:  "+ball.getVelocity());
+        System.out.println("time:  " +time);
+        if (time < closestCollision.getTime()) {
+            Vect newV = Geometry.reflectCircle(circle.getCenter(), ball.getCenter(), ball.getVelocity());
+            closestCollision = new Collision(newV, time, element, ball);
+        }
+    }
+
+    /**
+     * Detect the time until the next collision between the line and ball.
+     *
+     * @param line
+     * @param ball
+     * @param element
+     */
+    private void detectLineCollision(LineSegment line, Ball ball, Components element) {
+        double time = Geometry.timeUntilWallCollision(line, ball.getCircle(), ball.getVelocity());
+        if (time < closestCollision.getTime()) {
+            Vect newV = Geometry.reflectWall(line, ball.getVelocity());
+            closestCollision = new Collision(newV, time, element, ball);
+        }
+    }
+
+
+    /**
+     * move the ball ball for one tick
+     *
+     * @param ball
+     * @return
+     */
+    private Ball moveBall(Ball ball) {
+        Collision collision = getTimeTillCollision(ball);
+
+        System.out.println(collision.getTime() + " "+ moveTime);
+
+        if (collision.getTime() >= moveTime) { // No Collision
+            ball.moveForTime(moveTime);
+        } else { // Collision
+            ball.moveForTime(collision.getTime());
+            collision.getHandler().handle(collision);
+        }
+        return ball;
+    }
+
+    public void tick() {
+
+        /*for (IElement element : getElements()) {
+            if (element instanceof Flipper) {
+                ((Flipper) element).flip();
+            }
+        }*/
+        /*Collection<Ball> newBalls = new ArrayList<>();
+        for (Ball ball : getBalls()) {
+            newBalls.add(moveBall(ball));
+        }*/
+
+        //setBalls(newBalls);
+        Ball newBall = moveBall(ball);
+        setBall(newBall);
+
+    }
 }

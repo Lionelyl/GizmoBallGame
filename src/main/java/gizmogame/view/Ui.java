@@ -20,7 +20,7 @@ public class Ui extends JFrame{
             boardView = new BoardView(board);
             componentBar = new ComponentBar(boardView);
             toolBar = new ToolBar(boardView,board);
-            modelBar = new ModelBar(boardView);
+            modelBar = new ModelBar(boardView,board);
 
             createUI();
         }

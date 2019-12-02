@@ -1,5 +1,6 @@
 package gizmogame.model.gizmos;
 
+import gizmogame.model.Collision;
 import gizmogame.model.Components;
 import gizmogame.physics.Vect;
 import gizmogame.physics.LineSegment;
@@ -51,6 +52,11 @@ public class Triangle extends Components {
     @Override
     public boolean canRotate(){
         return true;
+    }
+
+    @Override
+    public void handle(Collision collision) {
+
     }
 }
 

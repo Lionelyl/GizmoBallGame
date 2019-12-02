@@ -1,8 +1,12 @@
 package gizmogame.model.gizmos;
 
+import gizmogame.model.Ball;
+import gizmogame.model.Board;
+import gizmogame.model.Collision;
 import gizmogame.model.Components;
 import gizmogame.physics.LineSegment;
 import gizmogame.physics.Vect;
+import gizmogame.view.Ui;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +21,8 @@ public class Square extends Components {
     public Square(Vect origin,String name){
         super(origin,name);
         coordinates = calculateCoordinates();
+        super.setCircles(calculateCircles());
+        super.setLines(calculateLines());
         rotaion = 0;
         size = 1;
     }
@@ -25,8 +31,9 @@ public class Square extends Components {
     private List<Vect> calculateCoordinates() {
         Vect topLeft = origin;
         Vect topRight = new Vect(bound.x(), origin.y());
+        Vect bottomRight = bound;
         Vect bottomLeft = new Vect(origin.x(), bound.y());
-        return Arrays.asList(topLeft, topRight, bottomLeft);
+        return Arrays.asList(topLeft, topRight, bottomRight, bottomLeft);
     }
 
     /**
@@ -80,4 +87,10 @@ public class Square extends Components {
         size++;
     }
 
+    @Override
+    public void handle(Collision c) {
+        Ball ball = c.getBall();
+        ball.moveForTime(c.getTime());
+        ball.setVelocity(c.getVelocity());
+    }
 }
